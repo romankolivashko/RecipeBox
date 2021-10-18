@@ -33,7 +33,7 @@ namespace RecipeBox.Controllers
       _db = db;
     }
 
-    //Index Route updated to find all DB items
+    //Index Route updated to find all DB recipes
     public ActionResult Index()
     {
       List<Recipe> userRecipes = _db.Recipes.ToList();
@@ -49,22 +49,22 @@ namespace RecipeBox.Controllers
     }
     
     [HttpPost]
-    public async Task<ActionResult> Create(Recipe item, int CategoryId)
+    public async Task<ActionResult> Create(Recipe recipe, int CategoryId)
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
-      item.User = currentUser;
-      _db.Recipes.Add(item);
+      recipe.User = currentUser;
+      _db.Recipes.Add(recipe);
       _db.SaveChanges();
       if (CategoryId != 0)
       {
-        _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = item.RecipeId });
+        _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = recipe.RecipeId });
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    // In the Details route we need to find the user associated with the item so that in the view, we can show the edit, delete or add category links if the item "belongs" to that user. Line 93 involves checking if the userId is null: if it is null then IsCurrentUser is set to false, if is not null, then the program evaluates whether userId is equal to thisRecipe.User.Id and returns true if so, false if not so.
+    // In the Details route we need to find the user associated with the recipe so that in the view, we can show the edit, delete or add category links if the recipe "belongs" to that user. Line 93 involves checking if the userId is null: if it is null then IsCurrentUser is set to false, if is not null, then the program evaluates whether userId is equal to thisRecipe.User.Id and returns true if so, false if not so.
     // Line 93 can be refactored into an if statement like so:
     // if (userId != null) 
     // {
@@ -85,16 +85,16 @@ namespace RecipeBox.Controllers
     public ActionResult Details(int id)
     {
       var thisRecipe = _db.Recipes
-          .Include(item => item.JoinEntities)
+          .Include(recipe => recipe.JoinEntities)
           .ThenInclude(join => join.Category)
-          .Include(item => item.User)
-          .FirstOrDefault(item => item.RecipeId == id);
+          .Include(recipe => recipe.User)
+          .FirstOrDefault(recipe => recipe.RecipeId == id);
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       ViewBag.IsCurrentUser = userId != null ? userId == thisRecipe.User.Id : false;
       return View(thisRecipe);
     }
 
-    // Edit Route is updated to find the user and the item that matches the user id, then is routed based on that result. 
+    // Edit Route is updated to find the user and the recipe that matches the user id, then is routed based on that result. 
     [Authorize]
     public async Task<ActionResult> Edit(int id)
     {
@@ -102,7 +102,7 @@ namespace RecipeBox.Controllers
       var currentUser = await _userManager.FindByIdAsync(userId);
       var thisRecipe = _db.Recipes
           .Where(entry => entry.User.Id == currentUser.Id)
-          .FirstOrDefault(item => item.RecipeId == id);
+          .FirstOrDefault(recipe => recipe.RecipeId == id);
       if (thisRecipe == null)
       {
         return RedirectToAction("Details", new {id = id});
@@ -113,18 +113,18 @@ namespace RecipeBox.Controllers
 
 
     [HttpPost]
-    public ActionResult Edit(Recipe item, int CategoryId)
+    public ActionResult Edit(Recipe recipe, int CategoryId)
     {
       if (CategoryId != 0)
       {
-        _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = item.RecipeId });
+        _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = recipe.RecipeId });
       }
-      _db.Entry(item).State = EntityState.Modified;
+      _db.Entry(recipe).State = EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    // AddCategory is updated to find the user and the item that matches the user id, then is routed based on that result. 
+    // AddCategory is updated to find the user and the recipe that matches the user id, then is routed based on that result. 
     [Authorize]
     public async Task<ActionResult> AddCategory(int id)
     {
@@ -132,7 +132,7 @@ namespace RecipeBox.Controllers
       var currentUser = await _userManager.FindByIdAsync(userId);
       Recipe thisRecipe = _db.Recipes
           .Where(entry => entry.User.Id == currentUser.Id)
-          .FirstOrDefault(item => item.RecipeId == id);
+          .FirstOrDefault(recipe => recipe.RecipeId == id);
       if (thisRecipe == null)
       {
         return RedirectToAction("Details", new {id = id});
@@ -142,17 +142,17 @@ namespace RecipeBox.Controllers
     }
 
     [HttpPost]
-    public ActionResult AddCategory(Recipe item, int CategoryId)
+    public ActionResult AddCategory(Recipe recipe, int CategoryId)
     {
       if (CategoryId != 0)
       {
-        _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = item.RecipeId });
+        _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = recipe.RecipeId });
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    // Delete route is updated to find the user and the item that matches the user id, then is routed based on that result. 
+    // Delete route is updated to find the user and the recipe that matches the user id, then is routed based on that result. 
     [Authorize]
     public async Task<ActionResult> Delete(int id)
     {
@@ -161,7 +161,7 @@ namespace RecipeBox.Controllers
 
       Recipe thisRecipe = _db.Recipes
           .Where(entry => entry.User.Id == currentUser.Id)
-          .FirstOrDefault(item => item.RecipeId == id);
+          .FirstOrDefault(recipe => recipe.RecipeId == id);
       if (thisRecipe == null)
       {
         return RedirectToAction("Details", new {id = id});
@@ -172,7 +172,7 @@ namespace RecipeBox.Controllers
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      var thisRecipe = _db.Recipes.FirstOrDefault(item => item.RecipeId == id);
+      var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
       _db.Recipes.Remove(thisRecipe);
       _db.SaveChanges();
       return RedirectToAction("Index");
