@@ -10,9 +10,27 @@
 {
   @Html.LabelFor(model => model.Description)
   @Html.TextBoxFor(model => model.Description)
-
+  <br>
+  @Html.LabelFor(model => model.Ingredient)
+  @Html.TextBoxFor(model => model.Ingredient)
+  <br>
   @Html.Label("Select category")
   @Html.DropDownList("CategoryId")
+  <br>
+
+  <h5>@Html.Label("Select Rating")</h5>
+    @Html.DropDownList("Rating", new List<SelectListItem> {
+      new SelectListItem { Text= "⭐", Value = "⭐" },
+      new SelectListItem { Text= "⭐⭐", Value = "⭐⭐" },
+      new SelectListItem { Text= "⭐⭐⭐", Value = "⭐⭐⭐" },
+      new SelectListItem { Text= "⭐⭐⭐⭐", Value = "⭐⭐⭐⭐" },
+      new SelectListItem { Text= "⭐⭐⭐⭐⭐", Value = "⭐⭐⭐⭐⭐" }
+    }, new { @class = "custom-select" })
+    
+    <br>
+
+
+
 
   <input type="submit" value="Add new recipe" class="btn btn-default" />
 }

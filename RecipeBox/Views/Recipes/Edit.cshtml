@@ -15,6 +15,9 @@
   @Html.LabelFor(model => model.Description)
   @Html.EditorFor(model => model.Description)
 
+  @Html.LabelFor(model => model.Ingredient)
+  @Html.TextBoxFor(model => model.Ingredient)
+
   @Html.Label("Select category")
   @Html.DropDownList("CategoryId")
 
