@@ -1,0 +1,43 @@
+@{
+  Layout = "_Layout";
+}
+
+@* @using System.Security.Claims *@
+@model RecipeBox.Models.Recipe
+
+<h2>Recipe Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h3>
+
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This item does not belong to any categories</p>
+}
+else
+{
+  <h4>Categories the item belongs to:</h4>
+  <ul>
+  @foreach(var join in Model.JoinEntities)
+  {
+    <li>@join.Category.Name</li>
+    @*Wrapped the 'Delete Category' ActionLink in an if statement to only show the link if the user is authenticated and the 'owner' of the item*@
+    @if (User.Identity.IsAuthenticated && ViewBag.IsCurrentUser)
+    {   
+      @using (Html.BeginForm("DeleteCategory", "Recipes"))
+      {
+        @Html.Hidden("joinId", @join.CategoryRecipeId)
+        <input type="submit" value="Delete"/>
+      }
+    }
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Back to list", "Index")</p>
+@*Wrapped the Create, Update and Delete ActionLinks in an if statement to only show the link if the user is authenticated and the 'owner' of the item*@
+@if (User.Identity.IsAuthenticated && ViewBag.IsCurrentUser)
+{
+  <p>@Html.ActionLink("Edit Recipe", "Edit", new { id = Model.RecipeId })</p>
+  <p>@Html.ActionLink("Add a Category", "AddCategory", new { id = Model.RecipeId })</p>
+  <p>@Html.ActionLink("Delete Recipe", "Delete", new { id = Model.RecipeId })</p>
+}
