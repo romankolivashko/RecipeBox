@@ -1,4 +1,6 @@
-div#footer {
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+ 
+ div#footer {
 	position:fixed;
 	bottom:0px;
 	left:0px;
@@ -6,4 +8,30 @@ div#footer {
 	color:#CCC;
 	background:#333;
 	padding:8px;
+} 
+
+
+body {
+  background: url("../img/knife_bg.jpg") center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+	font-family: 'Architects Daughter', cursive;
+	color: #fff;
+}
+
+.container {
+	margin-top: 11em;
+}
+
+.jumbotron {
+	/* background-color: rgb(47, 43, 43); */
+	width: auto;
+	background-image: url("../img/bb_bg.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+a {
+	color: rgb(219, 199, 199);
 }

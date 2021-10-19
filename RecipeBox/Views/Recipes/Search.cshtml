@@ -1,0 +1,23 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Recipe;
+
+
+<h2>Recipe search:</h2>
+<hr>
+<br>
+
+@using (Html.BeginForm())
+{
+  <div class="form-group">
+  @Html.TextBoxFor(model => model.Description, new {@class = "form-control2", @required= "required"})
+  </div>
+  <br>
+  <input type="submit" value="Search" class="btn btn-light"/>
+}
+
+
+<br>
+<p class ="btn btn-light">@Html.ActionLink("Back to recipes", "Index", null, null, new {@style = "color:#e6c8a0"})</p>

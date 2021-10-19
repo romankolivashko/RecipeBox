@@ -186,5 +186,18 @@ namespace RecipeBox.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+     public ActionResult Search() 
+    {
+      return View();
+    }
+
+    [HttpPost]
+    public ActionResult Search(string Description) 
+    {
+      string searchName = Description.ToLower();
+      List<Recipe> searchResults = _db.Recipes.Where(recipe => recipe.Description.ToLower().Contains(searchName)).ToList();
+      return View("Index", searchResults);
+    }
   }
 }
