@@ -6,7 +6,7 @@
 
 <h2>Let's authenticate first</h2>
 <hr />
-@if (User.Identity.IsAuthenticated)
+ @if (User.Identity.IsAuthenticated)
 {
     <p>Hello @User.Identity.Name!</p>
     @using (Html.BeginForm("LogOff", "Account"))
@@ -19,4 +19,5 @@ else
     <p>@Html.ActionLink("Register", "Register")</p>
     <p>@Html.ActionLink("Log in", "Login")</p>
 }
+<br>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>

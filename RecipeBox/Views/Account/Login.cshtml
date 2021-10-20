@@ -11,10 +11,15 @@
 @using (Html.BeginForm())
 {
     @Html.LabelFor(m => m.Email)
+    <span>: </span>
     @Html.TextBoxFor(m => m.Email)
-
+    <span> </span>
     @Html.LabelFor(m => m.Password)
+    <span>: </span>
     @Html.PasswordFor(m => m.Password)
 
-    <input type="submit" value="Log in" class="btn btn-default" />
+    <input type="submit" value="Log in" class="btn btn-default"/>
 }
+<br>
+<p>@Html.ActionLink("Register New User", "Register")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

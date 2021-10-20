@@ -7,7 +7,7 @@
 @model IEnumerable<RecipeBox.Models.Recipe>
 
 <h1>Welcome @User.Identity.Name</h1>
-
+<br>
 @if (Model.Any())
 {
   <ul>
@@ -21,7 +21,7 @@ else
 {
   <h3>No recipes have been added yet!</h3>
 }
-
+<br>
 @*Wrapped the 'Add New Recipe' ActionLink in an if statement to only show the link if the user is authenticated*@
 @if (User.Identity.IsAuthenticated)
 {

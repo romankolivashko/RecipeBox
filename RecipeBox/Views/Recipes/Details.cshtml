@@ -5,14 +5,14 @@
 @* @using System.Security.Claims *@
 @model RecipeBox.Models.Recipe
 
-<h2>Recipe Details</h2>
+<h1>Recipe Details</h1>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h3>
 <h3>Ingredients:</h3>
 @Html.DisplayFor(model => model.Ingredient)
 <h3>Rating:</h3>
 @Html.DisplayFor(model => model.Rating)
-
+<br>
 @if(@Model.JoinEntities.Count == 0)
 {
   <p>This item does not belong to any categories</p>

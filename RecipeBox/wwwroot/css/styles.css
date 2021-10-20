@@ -8,6 +8,8 @@
 	color:#CCC;
 	background:#333;
 	padding:8px;
+	text-align: center;
+	font-size: small;
 } 
 
 
@@ -17,6 +19,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 	font-family: 'Architects Daughter', cursive;
+	font-size: 18pt;
 	color: #fff;
 }
 
@@ -30,8 +33,18 @@ body {
 	background-image: url("../img/bb_bg.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
+	text-align: center;
 }
 
 a {
 	color: rgb(219, 199, 199);
+}
+
+ul {
+  list-style-type: none;
+}
+
+input, textarea{
+	background-color:rgb(241, 234, 234);
+	color: rgb(42, 41, 41);
 }

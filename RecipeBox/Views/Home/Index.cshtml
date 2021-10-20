@@ -4,4 +4,11 @@
 
 <h1>Welcome to the RecipeBox!</h1>
 <p>@Html.ActionLink("See all recipes", "Index", "Recipes")</p> <p>@Html.ActionLink("See all categories", "Index", "Categories")</p>
-<p>@Html.ActionLink("Create an account", "Index", "Account")</p>
+@if (User.Identity.IsAuthenticated)
+    {
+        <br>
+        <p>Hey @User.Identity.Name!</p>
+    } 
+<p>@Html.ActionLink("Login/Logout/Register", "Index", "Account")</p>
+    
+    
